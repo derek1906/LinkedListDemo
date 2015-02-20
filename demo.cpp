@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include <string>
+#include <stdexcept>
 using namespace std;
 
 class List{
@@ -42,7 +43,8 @@ class List{
     }
 
     ListNode** find(ListNode* &link, int offset){
-        return !link ? NULL : offset ? find(link->next, --offset) : &link;
+    	if(!link && offset > 0) throw invalid_argument("offset too big");
+        return offset ? find(link->next, --offset) : &link;
     }
 
     void insertAt(int offset, int d){
@@ -63,9 +65,6 @@ int main(){
     l.insertBack(3);
     l.insertBack(4);
     l.insertBack(5);
-    l.print(cout);
-    cout << (*l.find(2))->data << endl;
-    l.insertAt(3, 10);
-    l.insertAt(0, 100);
+    l.insertAt(6, 100);
     l.print(cout);
 }
